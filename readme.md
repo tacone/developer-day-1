@@ -56,7 +56,7 @@ Create a `docker/` folder containing a subfolder for each service. Inside each f
 
 Change the start scripts accordingly.
 
-## Task 5: make it work (optional)
+## Task 5: make it work for real (optional)
 
 Create a table within hasura, input some data and have the webserver read the data from the graphql endpoint and display it to the user in some way.
 
