@@ -3,6 +3,7 @@ version: '3.4'
 services:
   node:
     image: node:11
+    restart: "no"
     volumes:
       - ./node:/app
       - ./data/node/npm:/root/.npm
@@ -12,29 +13,33 @@ services:
     working_dir: /app
     command: npm run start
     ports:
-      - 7000:3000
+      - ${NODE_PORT:-7000}:3000
 
   postgres:
     image: postgres:12
-    restart: always
+    environment:
+      - POSTGRES_DATABASE_URL
+      - POSTGRES_PORT
     ports:
-      - "7001:5432"
+      - "${POSTGRES_PORT:-7001}:5432"
     volumes:
-    - ./data/postgres:/var/lib/postgresql/data
-    - /tmp/devday/postgres:/tmp
+      - ./data/postgres:/var/lib/postgresql/data
+      - /tmp/devday/postgres:/tmp
+    restart: "no"
     environment:
       POSTGRES_PASSWORD: postgrespassword
-  graphql-engine:
+
+  hasura:
     image: hasura/graphql-engine:v1.2.2
     ports:
-    - "7002:8080"
+      - ${HASURA_PORT:-7002}:8080
     volumes:
-    - /tmp/devday/graphql-engine:/tmp
+    - /tmp/devday/hasura:/tmp
     depends_on:
     - "postgres"
-    restart: always
+    restart: "no"
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: ${POSTGRES_DATABASE_URL:-postgres://postgres:postgrespassword@postgres:5432/postgres}
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       # HASURA_GRAPHQL_ADMIN_SECRET: verysecret
