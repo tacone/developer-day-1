@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hasura:
+    restart: "no"
+    environment:
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      # HASURA_GRAPHQL_ADMIN_SECRET: verysecret

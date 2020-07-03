@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  node:
+    image: node:11
+    restart: "always"
+    volumes:
+      - ./node:/app
+      - ./data/node/npm:/root/.npm
+      - /tmp/devday/node:/tmp
+    environment:
+      - NODE_ENV=production
+    working_dir: /app
+    command: npm run start
+    ports:
+      - ${NODE_PORT:-7000}:3000

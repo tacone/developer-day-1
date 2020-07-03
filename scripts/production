@@ -1,3 +1,8 @@
 #!/bin/bash
 
-docker-compose "$@"
+COMMON="-f docker-compose.yml"
+NODE="-f docker/node/docker-compose.yml"
+HASURA="-f docker/hasura/docker-compose.yml"
+POSTGRES="-f docker/postgres/docker-compose.yml"
+
+docker-compose $COMMON $NODE $POSTGRES $HASURA "$@"

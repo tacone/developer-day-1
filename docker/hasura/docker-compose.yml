@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  hasura:
+    image: hasura/graphql-engine:v1.2.2
+    ports:
+      - ${HASURA_PORT:-7002}:8080
+    volumes:
+    - /tmp/devday/hasura:/tmp
+    depends_on:
+    - "postgres"
+    restart: "always"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: ${POSTGRES_DATABASE_URL:-postgres://postgres:postgrespassword@postgres:5432/postgres}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      # HASURA_GRAPHQL_ADMIN_SECRET: verysecret
