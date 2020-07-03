@@ -10,6 +10,7 @@ services:
       - /tmp/devday/node:/tmp
     environment:
       - NODE_ENV=production
+      - GRAPHQL_ENDPOINT
     working_dir: /app
     command: npm run start
     ports:
