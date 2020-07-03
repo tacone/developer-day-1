@@ -1,3 +1,7 @@
+# Intro
+
+This is a easy exercise I put together for my coworkers. You can find a possible solution in the branch `solution`.
+
 # Developer day
 
 Let's play with docker and docker-compose.
