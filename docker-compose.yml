@@ -3,13 +3,13 @@ version: '3.4'
 services:
   node:
     image: node:11
-    restart: "no"
+    restart: "always"
     volumes:
       - ./node:/app
       - ./data/node/npm:/root/.npm
       - /tmp/devday/node:/tmp
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     working_dir: /app
     command: npm run start
     ports:
@@ -19,13 +19,10 @@ services:
     image: postgres:12
     environment:
       - POSTGRES_DATABASE_URL
-      - POSTGRES_PORT
-    ports:
-      - "${POSTGRES_PORT:-7001}:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
       - /tmp/devday/postgres:/tmp
-    restart: "no"
+    restart: "always"
     environment:
       POSTGRES_PASSWORD: postgrespassword
 
@@ -37,9 +34,9 @@ services:
     - /tmp/devday/hasura:/tmp
     depends_on:
     - "postgres"
-    restart: "no"
+    restart: "always"
     environment:
       HASURA_GRAPHQL_DATABASE_URL: ${POSTGRES_DATABASE_URL:-postgres://postgres:postgrespassword@postgres:5432/postgres}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       # HASURA_GRAPHQL_ADMIN_SECRET: verysecret

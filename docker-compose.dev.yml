@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  node:
+    restart: "no"
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    ports:
+      - ${NODE_PORT:-7000}:3000
+
+  postgres:
+    restart: "no"
+    ports:
+      - ${POSTGRES_PORT:-7001}:5432
+
+  hasura:
+    restart: "no"
+    environment:
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      # HASURA_GRAPHQL_ADMIN_SECRET: verysecret
